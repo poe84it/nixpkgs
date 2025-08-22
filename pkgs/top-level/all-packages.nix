@@ -12104,15 +12104,13 @@ with pkgs;
 
   img2pdf = with python3Packages; toPythonApplication img2pdf;
 
-  inkscape = callPackage ../applications/graphics/inkscape {
+  inkscape-from-all-packages = callPackage ../by-name/in/inkscape/package.nix {
     lcms = lcms2;
   };
 
-  inkscape-with-extensions = callPackage ../applications/graphics/inkscape/with-extensions.nix { };
+  inkscape-with-extensions = callPackage ../by-name/in/inkscape/with-extensions.nix { };
 
-  inkscape-extensions = recurseIntoAttrs (
-    callPackages ../applications/graphics/inkscape/extensions.nix { }
-  );
+  inkscape-extensions = recurseIntoAttrs (callPackages ../by-name/in/inkscape/extensions.nix { });
 
   ion3 = callPackage ../applications/window-managers/ion-3 {
     lua = lua5_1;
