@@ -22916,6 +22916,11 @@
     githubId = 10473184;
     name = "Jia Xiaodong";
   };
+  poe84it = {
+    github = "poe84it";
+    githubId = 20145321;
+    name = "Giuseppe Ruggiero";
+  };
   poelzi = {
     email = "nix@poelzi.org";
     github = "poelzi";
