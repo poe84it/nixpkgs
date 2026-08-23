@@ -213,8 +213,8 @@ rec {
       # Source corresponding to https://aur.archlinux.org/packages/nvidia-390xx-dkms
       aurPatches = fetchgit {
         url = "https://aur.archlinux.org/nvidia-390xx-utils.git";
-        rev = "cf1a1c571c425b4b66d12e468fc4ce45a397c583";
-        hash = "sha256-SERB5ihOroagJn7apAiqjUckbrfP2FZPCuTLWcBccoM=";
+        rev = "2df85fee07fffc9a889c3dde21899ef209ac2d55";
+        hash = "sha256-pWEH0GFuSD8rUafcg2weDFeOMqGrS437hUijOUMFz4k=";
       };
       patchset = [
         "kernel-4.16+-memory-encryption.patch"
@@ -232,6 +232,9 @@ rec {
         "gcc-15.patch"
         "kernel-6.15.patch"
         "kernel-6.17.patch"
+        "kernel-6.19.patch"
+        "kernel-6.18-nv_workqueue_flush.patch"
+        "kernel-7.0.patch"
       ];
     in
     generic {
@@ -242,7 +245,7 @@ rec {
       persistencedSha256 = "sha256-NuqUQbVt80gYTXgIcu0crAORfsj9BCRooyH3Gp1y1ns=";
 
       patches = map (patch: "${aurPatches}/${patch}") patchset;
-      broken = kernel.kernelAtLeast "6.18";
+      broken = kernel.kernelAtLeast "6.19";
 
       # fixes the bug described in https://bbs.archlinux.org/viewtopic.php?pid=2083439#p2083439
       # see https://bbs.archlinux.org/viewtopic.php?pid=2083651#p2083651
