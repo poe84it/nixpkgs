@@ -177,15 +177,7 @@ rec {
         rev = "7abbeeb510742be09e1eb806c14bab2833a25783";
         hash = "sha256-hRBws0o4DWI5fvZRn0OwitXRSR9HCkRkgnvnkiZI6Ko=";
       };
-    in
-    generic {
-      version = "470.256.02";
-      sha256_64bit = "sha256-1kUYYt62lbsER/O3zWJo9z6BFowQ4sEFl/8/oBNJsd4=";
-      sha256_aarch64 = "sha256-e+QvE+S3Fv3JRqC9ZyxTSiCu8gJdZXSz10gF/EN6DY0=";
-      settingsSha256 = "sha256-kftQ4JB0iSlE8r/Ze/+UMnwLzn0nfQtqYXBj+t6Aguk=";
-      persistencedSha256 = "sha256-iYoSib9VEdwjOPBP1+Hx5wCIMhW8q8cCHu9PULWfnyQ=";
-
-      patches = map (patch: "${aurPatches}/${patch}") [
+      patchset = [
         "0001-Fix-conftest-to-ignore-implicit-function-declaration.patch"
         "0002-Fix-conftest-to-use-a-short-wchar_t.patch"
         "0003-Fix-conftest-to-use-nv_drm_gem_vmap-which-has-the-se.patch"
@@ -200,6 +192,15 @@ rec {
         "nvidia-470xx-fix-linux-6.19-part2.patch"
         "nvidia-470xx-fix-linux-7.0.patch"
       ];
+    in
+    generic {
+      version = "470.256.02";
+      sha256_64bit = "sha256-1kUYYt62lbsER/O3zWJo9z6BFowQ4sEFl/8/oBNJsd4=";
+      sha256_aarch64 = "sha256-e+QvE+S3Fv3JRqC9ZyxTSiCu8gJdZXSz10gF/EN6DY0=";
+      settingsSha256 = "sha256-kftQ4JB0iSlE8r/Ze/+UMnwLzn0nfQtqYXBj+t6Aguk=";
+      persistencedSha256 = "sha256-iYoSib9VEdwjOPBP1+Hx5wCIMhW8q8cCHu9PULWfnyQ=";
+
+      patches = map (patch: "${aurPatches}/${patch}") patchset;
       patchFlags = [
         "-p1"
         "--directory=kernel"
