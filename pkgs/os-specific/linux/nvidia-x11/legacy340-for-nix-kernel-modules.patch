@@ -1,5 +1,5 @@
 diff --git a/kernel/nvidia-modules-common.mk b/kernel/nvidia-modules-common.mk
-index b94591b..95a7561 100644
+index b94591b..75274e3 100644
 --- a/kernel/nvidia-modules-common.mk
 +++ b/kernel/nvidia-modules-common.mk
 @@ -21,7 +21,7 @@ module module-sign module-install package-install clean print-module-filename \
@@ -11,15 +11,17 @@ index b94591b..95a7561 100644
  
  #
  # The precompiled kernel module build process requires a separation of the
-@@ -46,7 +46,7 @@ EXTRA_CFLAGS += -Wall -MD $(DEFINES) $(INCLUDES) -Wsign-compare -Wno-cast-qual -
+@@ -46,8 +46,8 @@ EXTRA_CFLAGS += -Wall -MD $(DEFINES) $(INCLUDES) -Wsign-compare -Wno-cast-qual -
  # to a reasonable default here, just in case.
  #
  
 -src ?= .
-+src = $(shell pwd)
- obj ?= $(src)
+-obj ?= $(src)
++src ?= .  
++obj = $(shell pwd)
  
  #
+ # Determine location of the Linux kernel source tree. Allow users to override
 diff --git a/kernel/Makefile b/kernel/Makefile
 index 125a690..2ad6338 100644
 --- a/kernel/Makefile
