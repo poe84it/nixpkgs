@@ -287,8 +287,10 @@ rec {
       persistencedSha256 = "1ax4xn3nmxg1y6immq933cqzw6cj04x93saiasdc0kjlv0pvvnkn";
       useGLVND = false;
 
+      patches = (map (patch: "${aurPatches}/${patch}") patchset) ++ [
+        ./legacy340-for-nix-kernel-modules.patch
+      ];
       broken = kernel.kernelAtLeast "6.7";
-      patches = map (patch: "${aurPatches}/${patch}") patchset;
 
       # fixes the bug described in https://bbs.archlinux.org/viewtopic.php?pid=2083439#p2083439
       # see https://bbs.archlinux.org/viewtopic.php?pid=2083651#p2083651
