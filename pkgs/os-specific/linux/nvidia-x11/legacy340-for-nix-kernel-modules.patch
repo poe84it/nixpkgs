@@ -1,5 +1,5 @@
 diff --git a/kernel/nvidia-modules-common.mk b/kernel/nvidia-modules-common.mk
-index c38cb61..ac5c43b 100644
+index b94591b..17ef52d 100644
 --- a/kernel/nvidia-modules-common.mk
 +++ b/kernel/nvidia-modules-common.mk
 @@ -21,7 +21,7 @@ module module-sign module-install package-install clean print-module-filename \
@@ -12,10 +12,10 @@ index c38cb61..ac5c43b 100644
  #
  # The precompiled kernel module build process requires a separation of the
 diff --git a/kernel/Makefile b/kernel/Makefile
-index 0d0dcc4..ee17ee4 100644
+index 125a690..3780eaf 100644
 --- a/kernel/Makefile
 +++ b/kernel/Makefile
-@@ -182,6 +182,10 @@ ccflags-y += -UDEBUG -U_DEBUG -DNDEBUG
+@@ -177,6 +177,10 @@ EXTRA_CFLAGS += -UDEBUG -U_DEBUG -DNDEBUG
  #
  
  src ?= .
@@ -26,7 +26,7 @@ index 0d0dcc4..ee17ee4 100644
  include $(src)/nvidia-modules-common.mk
  
  #
-@@ -213,3 +217,7 @@ else
+@@ -208,3 +212,7 @@ else
  endif
  
  module: $(NV_MODULE_TARGET_DEPS)
