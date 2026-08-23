@@ -37,13 +37,6 @@ let
     hash = "sha256-+SfIu3uYNQCf/KXhv4PWvruTVKQSh4bgU1moePhe57U=";
   };
 
-  # Source corresponding to https://aur.archlinux.org/packages/nvidia-390xx-dkms
-  aurPatches = fetchgit {
-    url = "https://aur.archlinux.org/nvidia-390xx-utils.git";
-    rev = "cf1a1c571c425b4b66d12e468fc4ce45a397c583";
-    hash = "sha256-SERB5ihOroagJn7apAiqjUckbrfP2FZPCuTLWcBccoM=";
-  };
-
   # https://github.com/NVIDIA/open-gpu-kernel-modules/issues/840
   gpl_symbols_linux_615_patch = fetchpatch {
     url = "https://github.com/CachyOS/kernel-patches/raw/914aea4298e3744beddad09f3d2773d71839b182/6.15/misc/nvidia/0003-Workaround-nv_vm_flags_-calling-GPL-only-code.patch";
@@ -213,40 +206,50 @@ rec {
     };
 
   # Last one supporting x86
-  legacy_390 = generic {
-    version = "390.157";
-    sha256_32bit = "sha256-VdZeCkU5qct5YgDF8Qgv4mP7CVHeqvlqnP/rioD3B5k=";
-    sha256_64bit = "sha256-W+u8puj+1da52BBw+541HxjtxTSVJVPL3HHo/QubMoo=";
-    settingsSha256 = "sha256-uJZO4ak/w/yeTQ9QdXJSiaURDLkevlI81de0q4PpFpw=";
-    persistencedSha256 = "sha256-NuqUQbVt80gYTXgIcu0crAORfsj9BCRooyH3Gp1y1ns=";
+  legacy_390 =
+    let
+      # Source corresponding to https://aur.archlinux.org/packages/nvidia-390xx-dkms
+      aurPatches = fetchgit {
+        url = "https://aur.archlinux.org/nvidia-390xx-utils.git";
+        rev = "cf1a1c571c425b4b66d12e468fc4ce45a397c583";
+        hash = "sha256-SERB5ihOroagJn7apAiqjUckbrfP2FZPCuTLWcBccoM=";
+      };
+      patchset = [
+        "kernel-4.16+-memory-encryption.patch"
+        "kernel-6.2.patch"
+        "kernel-6.3.patch"
+        "kernel-6.4.patch"
+        "kernel-6.5.patch"
+        "kernel-6.6.patch"
+        "kernel-6.8.patch"
+        "gcc-14.patch"
+        "kernel-6.10.patch"
+        "kernel-6.12.patch"
+        "kernel-6.13.patch"
+        "kernel-6.14.patch"
+        "gcc-15.patch"
+        "kernel-6.15.patch"
+        "kernel-6.17.patch"
+      ];
+    in
+    generic {
+      version = "390.157";
+      sha256_32bit = "sha256-VdZeCkU5qct5YgDF8Qgv4mP7CVHeqvlqnP/rioD3B5k=";
+      sha256_64bit = "sha256-W+u8puj+1da52BBw+541HxjtxTSVJVPL3HHo/QubMoo=";
+      settingsSha256 = "sha256-uJZO4ak/w/yeTQ9QdXJSiaURDLkevlI81de0q4PpFpw=";
+      persistencedSha256 = "sha256-NuqUQbVt80gYTXgIcu0crAORfsj9BCRooyH3Gp1y1ns=";
 
-    patches = map (patch: "${aurPatches}/${patch}") [
-      "kernel-4.16+-memory-encryption.patch"
-      "kernel-6.2.patch"
-      "kernel-6.3.patch"
-      "kernel-6.4.patch"
-      "kernel-6.5.patch"
-      "kernel-6.6.patch"
-      "kernel-6.8.patch"
-      "gcc-14.patch"
-      "kernel-6.10.patch"
-      "kernel-6.12.patch"
-      "kernel-6.13.patch"
-      "kernel-6.14.patch"
-      "gcc-15.patch"
-      "kernel-6.15.patch"
-      "kernel-6.17.patch"
-    ];
-    broken = kernel.kernelAtLeast "6.18";
+      patches = map (patch: "${aurPatches}/${patch}") patchset;
+      broken = kernel.kernelAtLeast "6.18";
 
-    # fixes the bug described in https://bbs.archlinux.org/viewtopic.php?pid=2083439#p2083439
-    # see https://bbs.archlinux.org/viewtopic.php?pid=2083651#p2083651
-    # and https://bbs.archlinux.org/viewtopic.php?pid=2083699#p2083699
-    postInstall = ''
-      mv $out/lib/tls/* $out/lib
-      rmdir $out/lib/tls
-    '';
-  };
+      # fixes the bug described in https://bbs.archlinux.org/viewtopic.php?pid=2083439#p2083439
+      # see https://bbs.archlinux.org/viewtopic.php?pid=2083651#p2083651
+      # and https://bbs.archlinux.org/viewtopic.php?pid=2083699#p2083699
+      postInstall = ''
+        mv $out/lib/tls/* $out/lib
+        rmdir $out/lib/tls
+      '';
+    };
 
   legacy_340 =
     let
